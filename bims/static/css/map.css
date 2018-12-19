@@ -1013,6 +1013,10 @@ div:hover::-webkit-scrollbar {
     z-index: 999;
 }
 
+.olmap-meta-data {
+    cursor: help;
+}
+
 #map-legend-symbol {
     height: 31px;
     width: 31px;

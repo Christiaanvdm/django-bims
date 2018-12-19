@@ -391,6 +391,18 @@
             </div>
         </div>
 </script>
+
+<script type="text/html" id="layer-meta-data">
+    <a  tabindex="=0"
+        role="button"
+        class="badge badge-primary"
+        data-toggle="popover"
+        data-trigger="focus"
+        title="Data Source"
+        data-content="And here is some amazing content. It is very engaging. Right?"
+    ><%= source %></a>
+</script>
+
 <script type="text/html" id="map-control-panel">
     <div class="map-control-panel {% if not user.is_authenticated %}no-upload{% endif %}">
         <div class="search-control sub-control-panel" data-toggle="popover" data-placement="right" data-trigger="hover" data-content="Search">
