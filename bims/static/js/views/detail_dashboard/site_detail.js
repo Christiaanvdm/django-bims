@@ -64,7 +64,11 @@ define([
 
             this.originTimelineGraph = this.$el.find('#collection-timeline-graph')[0];
             this.originCategoryGraph = this.$el.find('#collection-category-graph')[0];
+            this.consStatusGraph = this.$el.find('#cons-status-graph')[0];
+            this.sampleMethodGraph = this.$el.find('#sampling-method-graph')[0];
+
             this.recordsTimelineGraph = this.$el.find('#records-timeline-graph')[0];
+
 
             this.siteName = this.$el.find('#site-name');
             this.totalRecords = this.$el.find('#total-records');
@@ -183,6 +187,12 @@ define([
                 self.totalRecords.html(totalNumberRecords + parseInt(moduleValue['count']));
             });
 
+            var iucn_status_list = {};
+
+            $.each(data['modules_info']['base']['iucn_status'], function (objValue) {
+                iucn_status_list = objValue;
+            });
+
             // Count occurrence data
             $.each(data['records_occurrence'], function (key, classOccurrence) {
                 for (var speciesName in classOccurrence) {
@@ -201,7 +211,6 @@ define([
                         self.occurrenceData[speciesOccurrence['taxon_id']]['count'] +=
                             speciesOccurrence['count'];
                     }
-
                     $.each(speciesOccurrence['data_by_year'], function (year, count) {
                         if (!self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'].hasOwnProperty(year)) {
                             self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] = count;
@@ -209,10 +218,8 @@ define([
                             self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] += count;
                         }
                     });
-
                 }
             });
-
         },
         renderDashboard: function () {
             this.createOccurrenceTable(this.occurrenceData);
@@ -281,6 +288,16 @@ define([
             if (this.originCategoryGraphCanvas) {
                 this.originCategoryGraphCanvas.destroy();
                 this.originCategoryGraphCanvas = null;
+            }
+
+            if (this.consStatusGraphCanvas) {
+                this.consStatusGraphCanvas.destroy();
+                this.consStatusGraphCanvas = null;
+            }
+
+            if (this.sampleMethodGraphCanvas) {
+                this.sampleMethodGraphCanvas.destroy();
+                this.sampleMethodGraphCanvas = null;
             }
 
             if (this.recordsTimelineGraphCanvas) {
@@ -364,6 +381,11 @@ define([
             var canvas = this.originCategoryGraph;
             this.downloadChart(title, canvas);
         },
+        downloadConsStatusGraph: function () {
+            var title = 'cons-status';
+            var canvas = this.consStatusGraph;
+            this.downloadChart(title, canvas);
+        },
         downloadRecordTimeline: function () {
             var title = 'record-timeline';
             var canvas = this.recordsTimelineGraph;
@@ -434,6 +456,14 @@ define([
             var originColor = [];
             var originLabel = [];
 
+            var consData = {};
+            var consColor = [];
+            var consLabel = [];
+
+            var sampleData = {};
+            var sampleColor = [];
+            var sampleLabel = [];
+
             var recordsByYearLabel = [];
             var recordsByYearData = {};
 
@@ -478,6 +508,22 @@ define([
                 } else {
                     originData[category] += objectProperties['count'];
                 }
+                
+                if (!consData.hasOwnProperty(iucn_status)) {
+                    consData[iucn_status] = objectProperties['count'];
+                    consColor.push(self.categoryColor[iucn_status]);
+                    consLabel.push(iucn_status);
+                } else {
+                    consData[iucn_status] += objectProperties['count'];
+                }
+                
+                if (!sampleData.hasOwnProperty(category)) {
+                    sampleData[category] = objectProperties['count'];
+                    sampleColor.push(self.categoryColor[category]);
+                    sampleLabel.push(category);
+                } else {
+                    sampleData[category] += objectProperties['count'];
+                }
 
             });
 
@@ -487,6 +533,22 @@ define([
                 originLabel,
                 self.pieOptions,
                 originColor);
+
+            this.consStatusGraphCanvas = self.createPieChart(
+                self.consStatusGraph.getContext('2d'),
+                Object.values(consData),
+                consLabel,
+                self.pieOptions,
+                consColor);
+
+             this.sampleMethodGraphCanvas = self.createPieChart(
+                self.sampleMethodGraph.getContext('2d'),
+                Object.values(sampleData),
+                sampleLabel,
+                self.pieOptions,
+                sampleColor);
+
+
             var recordsByYearDatasets = [{
                 backgroundColor: '#48862b',
                 borderWidth: 1,
