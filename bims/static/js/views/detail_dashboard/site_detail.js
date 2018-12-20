@@ -188,10 +188,6 @@ define([
                 self.totalRecords.html(totalNumberRecords + parseInt(moduleValue['count']));
             });
 
-
-
-
-
             // Count occurrence data
             $.each(data['records_occurrence'], function (key, classOccurrence) {
                 for (var speciesName in classOccurrence) {
@@ -226,45 +222,18 @@ define([
 
             iucnLabels = [];
             iucnData = [];
+            iucnColors = ["#00a99d", "#a13447"];
             $.each(data['modules_info']['base']['iucn_status'], function (key, data_value) {
-                iucnData.push([key, data_value]);
+                iucnData.push(data_value);
                 iucnLabels.push(key);
             });
 
             this.createPieChart(this.consStatusGraph,
-                                iucnData,
-                                iucnLabels,
-                                this.pieOptions,
-                                this.dummyPieColors);
+                iucnData,
+                iucnLabels,
+                this.pieOptions,
+                iucnColors);
 
-
-
-            $.each(data['modules_info'], function (key, data_value) {
-                for (var iucn_description in data_value) {
-                    if (!data_value.hasOwnProperty(iucn_description)) {
-                        return true;
-                    }
-                    var speciesOccurrence = classOccurrence[speciesName];
-                    if (!self.occurrenceData.hasOwnProperty(speciesOccurrence['taxon_id'])) {
-                        self.occurrenceData[speciesOccurrence['taxon_id']] = {
-                            'label': speciesName,
-                            'count': speciesOccurrence['count'],
-                            'category': self.categories[speciesOccurrence['category']],
-                            'data_by_year': {}
-                        }
-                    } else {
-                        self.occurrenceData[speciesOccurrence['taxon_id']]['count'] +=
-                            speciesOccurrence['count'];
-                    }
-                    $.each(speciesOccurrence['data_by_year'], function (year, count) {
-                        if (!self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'].hasOwnProperty(year)) {
-                            self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] = count;
-                        } else {
-                            self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] += count;
-                        }
-                    });
-                }
-            });
 
         },
         renderDashboard: function () {
@@ -555,7 +524,7 @@ define([
                 } else {
                     originData[category] += objectProperties['count'];
                 }
-                
+
                 // if (!consData.hasOwnProperty(iucn_status)) {
                 //     consData[iucn_status] = objectProperties['count'];
                 //     consColor.push(self.categoryColor[iucn_status]);
@@ -581,19 +550,19 @@ define([
                 self.pieOptions,
                 originColor);
 
-            this.consStatusGraphCanvas = self.createPieChart(
-                self.consStatusGraph.getContext('2d'),
-                Object.values(consData),
-                consLabel,
-                self.pieOptions,
-                consColor);
-
-             this.sampleMethodGraphCanvas = self.createPieChart(
-                self.sampleMethodGraph.getContext('2d'),
-                Object.values(sampleData),
-                sampleLabel,
-                self.pieOptions,
-                sampleColor);
+            // this.consStatusGraphCanvas = self.createPieChart(
+            //     self.consStatusGraph.getContext('2d'),
+            //     Object.values(consData),
+            //     consLabel,
+            //     self.pieOptions,
+            //     consColor);
+            //
+            // this.sampleMethodGraphCanvas = self.createPieChart(
+            //     self.sampleMethodGraph.getContext('2d'),
+            //     Object.values(sampleData),
+            //     sampleLabel,
+            //     self.pieOptions,
+            //     sampleColor);
 
 
             var recordsByYearDatasets = [{
