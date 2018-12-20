@@ -26,6 +26,7 @@ define([
         csvDownloadUrl: '/api/collection/download/',
         apiParameters: _.template(Shared.SearchURLParametersTemplate),
         occurrenceData: {},
+        iucnData: {},
         categoryColor: {
             'Native': '#a13447',
             'Non-Native': '#00a99d',
@@ -187,11 +188,9 @@ define([
                 self.totalRecords.html(totalNumberRecords + parseInt(moduleValue['count']));
             });
 
-            var iucn_status_list = {};
 
-            $.each(data['modules_info']['base']['iucn_status'], function (objValue) {
-                iucn_status_list = objValue;
-            });
+
+
 
             // Count occurrence data
             $.each(data['records_occurrence'], function (key, classOccurrence) {
@@ -220,6 +219,53 @@ define([
                     });
                 }
             });
+
+            // Count IUCN data
+
+            var iucn_status_list = {};
+
+            iucnLabels = [];
+            iucnData = [];
+            $.each(data['modules_info']['base']['iucn_status'], function (key, data_value) {
+                iucnData.push([key, data_value]);
+                iucnLabels.push(key);
+            });
+
+            this.createPieChart(this.consStatusGraph,
+                                iucnData,
+                                iucnLabels,
+                                this.pieOptions,
+                                this.dummyPieColors);
+
+
+
+            $.each(data['modules_info'], function (key, data_value) {
+                for (var iucn_description in data_value) {
+                    if (!data_value.hasOwnProperty(iucn_description)) {
+                        return true;
+                    }
+                    var speciesOccurrence = classOccurrence[speciesName];
+                    if (!self.occurrenceData.hasOwnProperty(speciesOccurrence['taxon_id'])) {
+                        self.occurrenceData[speciesOccurrence['taxon_id']] = {
+                            'label': speciesName,
+                            'count': speciesOccurrence['count'],
+                            'category': self.categories[speciesOccurrence['category']],
+                            'data_by_year': {}
+                        }
+                    } else {
+                        self.occurrenceData[speciesOccurrence['taxon_id']]['count'] +=
+                            speciesOccurrence['count'];
+                    }
+                    $.each(speciesOccurrence['data_by_year'], function (year, count) {
+                        if (!self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'].hasOwnProperty(year)) {
+                            self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] = count;
+                        } else {
+                            self.occurrenceData[speciesOccurrence['taxon_id']]['data_by_year'][year] += count;
+                        }
+                    });
+                }
+            });
+
         },
         renderDashboard: function () {
             this.createOccurrenceTable(this.occurrenceData);
@@ -271,6 +317,7 @@ define([
             });
             this.mapLocationSite.addOverlay(markerName);
         },
+
         clearDashboard: function () {
             this.siteName.html('');
             this.coordinates = [];
@@ -509,21 +556,21 @@ define([
                     originData[category] += objectProperties['count'];
                 }
                 
-                if (!consData.hasOwnProperty(iucn_status)) {
-                    consData[iucn_status] = objectProperties['count'];
-                    consColor.push(self.categoryColor[iucn_status]);
-                    consLabel.push(iucn_status);
-                } else {
-                    consData[iucn_status] += objectProperties['count'];
-                }
-                
-                if (!sampleData.hasOwnProperty(category)) {
-                    sampleData[category] = objectProperties['count'];
-                    sampleColor.push(self.categoryColor[category]);
-                    sampleLabel.push(category);
-                } else {
-                    sampleData[category] += objectProperties['count'];
-                }
+                // if (!consData.hasOwnProperty(iucn_status)) {
+                //     consData[iucn_status] = objectProperties['count'];
+                //     consColor.push(self.categoryColor[iucn_status]);
+                //     consLabel.push(iucn_status);
+                // } else {
+                //     consData[iucn_status] += objectProperties['count'];
+                // }
+                //
+                // if (!sampleData.hasOwnProperty(category)) {
+                //     sampleData[category] = objectProperties['count'];
+                //     sampleColor.push(self.categoryColor[category]);
+                //     sampleLabel.push(category);
+                // } else {
+                //     sampleData[category] += objectProperties['count'];
+                // }
 
             });
 
