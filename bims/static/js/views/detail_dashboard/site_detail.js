@@ -216,29 +216,13 @@ define([
                 }
             });
 
-            // Count IUCN data
 
-            var iucn_status_list = {};
-
-            iucnLabels = [];
-            iucnData = [];
-            iucnColors = ["#00a99d", "#a13447"];
-            $.each(data['modules_info']['base']['iucn_status'], function (key, data_value) {
-                iucnData.push(data_value);
-                iucnLabels.push(key);
-            });
-
-            this.createPieChart(this.consStatusGraph,
-                iucnData,
-                iucnLabels,
-                this.pieOptions,
-                iucnColors);
 
 
         },
         renderDashboard: function () {
             this.createOccurrenceTable(this.occurrenceData);
-            this.createCharts(this.occurrenceData);
+            this.createCharts(this.data);
 
             var bbox = ol.extent.boundingExtent(this.coordinates);
             this.mapLocationSite.getView().fit(bbox, this.mapLocationSite.getSize());
@@ -397,11 +381,6 @@ define([
             var canvas = this.originCategoryGraph;
             this.downloadChart(title, canvas);
         },
-        downloadConsStatusGraph: function () {
-            var title = 'cons-status';
-            var canvas = this.consStatusGraph;
-            this.downloadChart(title, canvas);
-        },
         downloadRecordTimeline: function () {
             var title = 'record-timeline';
             var canvas = this.recordsTimelineGraph;
@@ -486,6 +465,22 @@ define([
             var originByYearData = {};
             var dataByYear = {};
 
+             // Get IUCN data
+            iucnLabels = [];
+            iucnData = [];
+            iucnColors = ["#00a99d", "#a13447"];
+            $.each(data['modules_info']['base']['iucn_status'], function (key, data_value) {
+                iucnData.push(data_value);
+                iucnLabels.push(key);
+            });
+            // Create Conservation Status Graph
+            this.createPieChart(this.consStatusGraph,
+                iucnData,
+                iucnLabels,
+                this.pieOptions,
+                iucnColors);
+
+            // Get Sample Method Data
             $.each(data, function (key, value) {
 
                 var objectProperties = value;
