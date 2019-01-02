@@ -481,6 +481,15 @@ define([
                 self.pieOptions,
                 originColor);
 
+             // Get IUCN data
+            iucnLabels = [];
+            iucnData = [];
+            iucnColors = ["#00a99d", "#a13447"];
+            // $.each(data['modules_info']['base']['iucn_status'], function (key, data_value) {
+            //     iucnData.push(data_value);
+            //     iucnLabels.push(key);
+            // });
+
             var recordsByYearDatasets = [{
                 backgroundColor: '#48862b',
                 borderWidth: 1,
