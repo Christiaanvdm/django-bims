@@ -267,17 +267,14 @@ class LocationSitesSummary(APIView):
                 records_occurrence[collection.taxonomy] = {
                     self.COUNT: 0,
                     self.ORIGIN: collection.category,
-                    self.TAXONOMY_NAME: collection.taxon_canonical_name
+                    self.TAXONOMY_NAME: collection.taxon_canonical_name,
+                    self.IUCN_STATUS: collection.iucn_status,
                 }
 
-            if collection.iucn_status not in records_occurrence:
-               records_occurence[collection.iucn_status] = {
-                   self.IUCN_STATUS: collection.iucn_status,
-                   self.COUNT: 0
-               }
 
-            records_occurrence[collection.taxonomy]['count'] += 1
-            records.occurrence[collection.iucn_status]['count'] += 1
+
+            # records_occurrence[collection.taxonomy]['count'] += 1
+            # records.occurrence[collection.iucn_status]['count'] += 1
 
         response_data = {
             self.TOTAL_RECORDS: len(collection_results),
