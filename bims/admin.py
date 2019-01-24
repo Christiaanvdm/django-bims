@@ -16,6 +16,7 @@ from django.contrib.auth.models import Permission
 from django.contrib.flatpages.admin import FlatPageAdmin
 from django.contrib.flatpages.models import FlatPage
 from django.db import models
+from django.conf import settings
 
 from geonode.people.admin import ProfileAdmin
 from geonode.people.forms import ProfileCreationForm
@@ -358,6 +359,19 @@ class CustomUserAdmin(ProfileAdmin):
             ),
             obj.email,
             [obj.email],
+            fail_silently=False
+        )
+        send_mail(
+            '[BIMS][ADMIN] A new user has registered.\n'
+            '\n'
+            'Username: {username}\n'
+            'Name: {firstname} {lastname}\n'
+            '\n'
+            'Click here to go to the admin page: '.format(
+                **data
+            ),
+            settings.SERVER_EMAIL,
+            settings.SERVER_EMAIL,
             fail_silently=False
         )
         return super(CustomUserAdmin, self).response_add(
