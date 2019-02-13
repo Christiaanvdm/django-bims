@@ -25,10 +25,6 @@ class Command(BaseCommand):
         location_sites = LocationSite.objects.all()
         num = len(location_sites)
         i = 1
-
-        models.signals.post_save.disconnect(
-            location_site_post_save_handler,
-        )
         for location_site in location_sites:
             print('Updating %s of %s, %s' % (i, num, location_site.name))
             i += 1
@@ -38,6 +34,6 @@ class Command(BaseCommand):
             if success:
                 location_site.save()
 
-        models.signals.post_save.connect(
-            location_site_post_save_handler,
-        )
+
+
+

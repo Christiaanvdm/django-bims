@@ -192,10 +192,15 @@ class LocationSite(DocumentLinksMixin):
         return json.dumps(r.json())
 
     def add_context_group(self, group_key):
+        new_data = self.get_geocontext_group_data(group_key)
+        if not self.location_context_document:
+            old_location_context_string = (
+                '{"context_group_values":[%s]}' % new_data)
+            self.location_context_document = old_location_context_string
+            return True, "Group values added to empty document"
         old_location_context_string = self.location_context_document
         doc_end_position = (
             old_location_context_string.rfind('}]'))
-        new_data = self.get_geocontext_group_data(group_key)
         if doc_end_position < 1:
             old_location_context_string = (
                 '{"context_group_values":[%s]}' % new_data)
