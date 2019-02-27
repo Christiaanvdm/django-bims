@@ -10,75 +10,140 @@
     <button class="btn btn-primary btn-dashboard close-dashboard"
             style="float: right"><i class="fa fa-times pull-right"></i>
     </button>
-    <div class="container dashboard-wrapper">
-        <div class="container row">
-            <div class="col-lg-4">
-                <h5 class="dd-title" style="float: left">Distribution</h5>
-                <button id="export-taxasite-map" style="float: right"
-                        class="btn btn-default btn-element-download"><i
-                        class="fa fa-download"></i></button>
-                <div id="taxasite-map" class="map"
-                     style="height: 300px; width: 100%; border: 1px solid black"></div>
-                <h5 class="dd-title" style="margin-top: 15px">Overview</h5>
-                <div class="overview-taxa-table dashboard-table"
-                     style="margin-top: 10px; margin-bottom: 10px"></div>
-                <h5 class="dd-title">Names & Taxonomy</h5>
-                <div class="overview-name-taxonomy-table dashboard-table"
-                     style="margin-top: 10px; margin-bottom: 10px"></div>
-            </div>
-            <div class="col-lg-8 dashboard-graph-wrapper">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <h5 class="dd-title">Records per area</h5>
-                        <div class="dashboard-table records-area-table"></div>
-                    </div>
+    <div class="container-fluid dashboard-wrapper">
+        <div class="row">
+            <div class="col-4 col-lg-4">
+                <div class="row" id="fish-dash-filter-history">
+
                 </div>
-                <div class="row"
-                     style="margin: 0 !important; margin-top: 15px !important;">
-                    <div id="taxa-record-timeline-wrapper"
-                         class="chart-wrapper"
-                         style="border: 1px solid black; width: 95%; height: 200px">
-                        <canvas id="taxa-records-timeline-graph" width="150px"
-                                height="150px"></canvas>
-                    </div>
-                    <div style="width: 5%; ">
-                        <button class="btn btn-default btn-element-download pull-right download-taxa-records-timeline"
-                                style="float: left">
-                            <i class="fa fa-download"></i>
+                <div class="row" id="fish-dash-distribution-map">
+                    <div class="col-12">
+                        <h5 class="dd-title" style="float: left">
+                            Distribution</h5>
+                        <button id="export-taxasite-map" style="float: right"
+                                class="btn btn-default btn-element-download"><i
+                                class="fa fa-download"></i>
                         </button>
+                        <div id="taxasite-map" class="map"
+                             style="height: 300px; width: 100%; border: 1px solid black">
+                        </div>
                     </div>
                 </div>
-                <div class="row dd-sub-title">CONSERVATION STATUS</div>
-                <div class="row dd-status-list conservation-status-list">
-                    <span class="dd-status-item"
-                          data-value="EX">Extinct (EX)</span>
-                    <span class="dd-status-item" data-value="EW">Extinct in the wild (EW)</span>
-                    <span class="dd-status-item" data-value="CR">Critically endangered (CR)</span>
-                    <span class="dd-status-item" data-value="EN">Endangered (EN)</span>
-                    <span class="dd-status-item" data-value="VU">Vulnerable (VU)</span>
-                    <span class="dd-status-item" data-value="NT">Near threatened (NT)</span>
-                    <span class="dd-status-item" data-value="LC">Least concern (LC)</span>
-                    <span class="dd-status-item" data-value="DD">Data deficient (DD)</span>
-                    <span class="dd-status-item" data-value="NE">Not evaluated (NE)</span>
+                <div class="row" id="fish-dash-overview">
+                     <div class="col-12">
+                        <h5 class="dd-title" style="margin-top: 15px">Overview</h5>
+                        <div class="overview-taxa-table dashboard-table"
+                             style="margin-top: 10px; margin-bottom: 10px"></div>
+                     </div>
                 </div>
-                <div class="row dd-sub-title">ORIGIN</div>
-                <div class="row dd-status-list origin-info-list">
-                    <span class="dd-status-item"
-                          data-value="indigenous">Native</span>
-                    <span class="dd-status-item"
-                          data-value="alien">Non-native</span>
-                    <span class="dd-status-item" data-value="translocated">Translocated</span>
+                <div class="row" id="fish-dash-occurrence-data">
+                     <div class="col-12">
+                        <h5 class="dd-title">Occurrence Data</h5>
+                        <div class="dashboard-table records-area-table"></div>
+                     </div>
                 </div>
-                <div class="row dd-sub-title">ENDEMISM</div>
-                <div class="row dd-status-list endemic-info-list">
-                    <span class="dd-status-item" data-value="widespread">Widespread</span>
-                    <span class="dd-status-item" data-value="regional endemic">Regional endemic</span>
-                    <span class="dd-status-item" data-value="micro-endemic">Micro-endemic</span>
+            </div>
+            <div class="col-8 col-lg-8 dashboard-graph-wrapper">
+                <div class="row" id="fish_dash_data_summary">
+                </div>
+                <div class="row" id="fish_dash_occurrences" style="margin: 0 !important; margin-top: 15px !important;">
+                    <div class="col-12">
+                        <div id="taxa-record-timeline-wrapper"
+                             class="chart-wrapper"
+                             style="border: 1px solid black; width: 100%; height: 200px">
+                            <canvas id="taxa-records-timeline-graph" width="150px"
+                                    height="150px"></canvas>
+                        </div>
+                        <div style="width: 5%;">
+                            <button class="btn btn-default btn-element-download pull-right download-taxa-records-timeline"
+                                    style="float: left">
+                                <i class="fa fa-download"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="fish_dash_sites">
+                </div>
+                <div class="row" id="fish_dash_taxa">
+                </div>
+                <div class="row" id="fish_dash_origin">
+                </div>
+                <div class="row" id="fish_dash_endemism">
+                </div>
+                <div class="row" id="fish_dash_conservation_status">
+                </div>
+                <div class="row" id="fish_dash_sampling_method">
                 </div>
             </div>
         </div>
+        {# Commented code below goes in here #}
     </div>
 </script>
+
+{#        <div class="container row">#}
+{#            <div class="col-lg-4">#}
+{#                <h5 class="dd-title" style="float: left">Distribution</h5>#}
+{#                <button id="export-taxasite-map" style="float: right"#}
+{#                        class="btn btn-default btn-element-download"><i#}
+{#                        class="fa fa-download"></i></button>#}
+{#                <div id="taxasite-map" class="map"#}
+{#                     style="height: 300px; width: 100%; border: 1px solid black"></div>#}
+
+{#                <h5 class="dd-title">Names & Taxonomy</h5>#}
+{#                <div class="overview-name-taxonomy-table dashboard-table"#}
+{#                     style="margin-top: 10px; margin-bottom: 10px"></div>#}
+{#            </div>#}
+{#            <div class="col-lg-8 dashboard-graph-wrapper">#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-12">#}
+{#                        <h5 class="dd-title">Records per area</h5>#}
+{#                        <div class="dashboard-table records-area-table"></div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row"#}
+{#                     style="margin: 0 !important; margin-top: 15px !important;">#}
+{#                    <div id="taxa-record-timeline-wrapper"#}
+{#                         class="chart-wrapper"#}
+{#                         style="border: 1px solid black; width: 95%; height: 200px">#}
+{#                        <canvas id="taxa-records-timeline-graph" width="150px"#}
+{#                                height="150px"></canvas>#}
+{#                    </div>#}
+{#                    <div style="width: 5%; ">#}
+{#                        <button class="btn btn-default btn-element-download pull-right download-taxa-records-timeline"#}
+{#                                style="float: left">#}
+{#                            <i class="fa fa-download"></i>#}
+{#                        </button>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row dd-sub-title">CONSERVATION STATUS</div>#}
+{#                <div class="row dd-status-list conservation-status-list">#}
+{#                    <span class="dd-status-item"#}
+{#                          data-value="EX">Extinct (EX)</span>#}
+{#                    <span class="dd-status-item" data-value="EW">Extinct in the wild (EW)</span>#}
+{#                    <span class="dd-status-item" data-value="CR">Critically endangered (CR)</span>#}
+{#                    <span class="dd-status-item" data-value="EN">Endangered (EN)</span>#}
+{#                    <span class="dd-status-item" data-value="VU">Vulnerable (VU)</span>#}
+{#                    <span class="dd-status-item" data-value="NT">Near threatened (NT)</span>#}
+{#                    <span class="dd-status-item" data-value="LC">Least concern (LC)</span>#}
+{#                    <span class="dd-status-item" data-value="DD">Data deficient (DD)</span>#}
+{#                    <span class="dd-status-item" data-value="NE">Not evaluated (NE)</span>#}
+{#                </div>#}
+{#                <div class="row dd-sub-title">ORIGIN</div>#}
+{#                <div class="row dd-status-list origin-info-list">#}
+{#                    <span class="dd-status-item"#}
+{#                          data-value="indigenous">Native</span>#}
+{#                    <span class="dd-status-item"#}
+{#                          data-value="alien">Non-native</span>#}
+{#                    <span class="dd-status-item" data-value="translocated">Translocated</span>#}
+{#                </div>#}
+{#                <div class="row dd-sub-title">ENDEMISM</div>#}
+{#                <div class="row dd-status-list endemic-info-list">#}
+{#                    <span class="dd-status-item" data-value="widespread">Widespread</span>#}
+{#                    <span class="dd-status-item" data-value="regional endemic">Regional endemic</span>#}
+{#                    <span class="dd-status-item" data-value="micro-endemic">Micro-endemic</span>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
 
 <script type="text/template" id="taxon-overview-table">
     <table class="table">
