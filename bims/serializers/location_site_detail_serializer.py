@@ -191,7 +191,10 @@ class LocationSiteDetailSerializer(LocationSiteSerializer):
         values = endemism_status_data.values_list('count', flat=True)
         biodiversity_data['fish']['endemism_chart']['data'] = list(values)
         biodiversity_data['fish']['endemism_chart']['keys'] = list(keys)
+
+        fish_taxa_count = collection_results.values(
+            'taxonomy_id').distinct().count()
         biodiversity_data['occurrences'] = [0, 0, 0]
-        biodiversity_data['number_of_taxa'] = [0, 0, 0]
+        biodiversity_data['number_of_taxa'] = [fish_taxa_count, 0, 0]
         biodiversity_data['ecological_condition'] = ['TBA', 'TBA', 'TBA']
         return biodiversity_data

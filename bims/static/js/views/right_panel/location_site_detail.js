@@ -66,19 +66,18 @@ define(['backbone', 'ol', 'shared', 'chartJs', 'jquery'], function (Backbone, ol
             {
                 fish_occurrences = 'Unknown';
             }
+            var fish_taxa_count ;
+            if ('biodiversity_data' in data){
+                var biodiversity_data = data['biodiversity_data'];
+                fish_taxa_count = biodiversity_data['fish']['number_of_taxa'];
+            }
 
             return biodiversity_template({
-                fish_occurrences: fish_occurrences,
-                invertebrate_occurrences: '0',
-                algae_occurrences: '0',
-                fish_sites_count: '0',
-                invertebrate_sites_count: '0',
-                algae_sites_count: '0',
-                fish_taxa_count: '0',
-                invertebrate_taxa_count: '0',
-                algae_taxa_count: '0'});
+                occurrences: [fish_occurrences, 0, 0],
+                sites_count: [0, 0, 0],
+                taxa_count: [fish_taxa_count, 0, 0]});
         },
-        createDataSummary: function (data, ) {
+        createDataSummary: function (data) {
             var bio_data = data['biodiversity_data'];
             var origin_pie_canvas = document.getElementById('fish-rp-origin-pie');
             this.renderPieChart(bio_data, 'fish', 'origin', origin_pie_canvas);
