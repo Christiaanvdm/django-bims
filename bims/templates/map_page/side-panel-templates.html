@@ -28,8 +28,8 @@
 </script>
 
 <script type='text/html' id='side-panel-biodiversity-data-template'>
-	<div class="row" id="biodiversity_data">
-		<div class="col-12">
+	<div id="biodiversity_data">
+		<div class="col-12" style="padding-top: 0.5rem; padding-bottom: 0.5rem;">
 			<div class="row" id="biodiversity_data_types">
 				<div class="col-3">Type</div>
 				<div class="col-3 fish-icon"></div>
@@ -48,29 +48,52 @@
 				<div class="col-3"><%= sites_count[1] %></div>
 				<div class="col-3"><%= sites_count[2] %></div>
 			</div>
-			<div class="row" id="origin_pie_charts">
-				<div class="col-3">Origin</div>
-				<div class="col-3" id="fish-rp-origin-pie"></div>
-				<div class="col-3" id="invertebrate-rp-origin-pie"></div>
-				<div class="col-3" id="algae-rp-origin-pie"></div>
-			</div>
-			<div class="row" id="endemism_pie_charts">
-				<div class="col-3">Endemism</div>
-				<div class="col-3" id="fish-rp-endemism-pie"></div>
-				<div class="col-3" id="invertebrate-rp-endemism-pie"></div>
-				<div class="col-3" id="algae-rp-endemism-pie"></div>
-			</div>
-			<div class="row" id="conservation-status_pie_charts">
-				<div class="col-3">Conservation Status</div>
-				<div class="col-3" id="fish-rp-conservation-status-pie"></div>
-				<div class="col-3" id="invertebrate-rp-conservation-status-pie"></div>
-				<div class="col-3" id="algae-rp-conservation-status-pie"></div>
+			<div class="rp-pie-charts">
+				<div class="row" id="origin_pie_charts">
+					<div class="col-3">Origin</div>
+					<div class="col-3"><canvas id="fish-rp-origin-pie"></canvas></div>
+					<div class="col-3"><canvas id="invertebrate-rp-origin-pie"></canvas></div>
+					<div class="col-3"><canvas id="algae-rp-origin-pie"></canvas></div>
+				</div>
+				<div class="row" id="endemism_pie_charts">
+					<div class="col-3">Endemism</div>
+					<div class="col-3"><canvas id="fish-rp-endemism-pie"></canvas></div>
+					<div class="col-3"><canvas id="invertebrate-rp-endemism-pie"></canvas></div>
+					<div class="col-3"><canvas id="algae-rp-endemism-pie"></canvas></div>
+				</div>
+				<div class="row" id="conservation-status_pie_charts">
+					<div class="col-3">Conservation Status</div>
+					<div class="col-3"><canvas id="fish-rp-conservation-status-pie"></canvas></div>
+					<div class="col-3"><canvas id="invertebrate-rp-conservation-status-pie"></canvas></div>
+					<div class="col-3"><canvas id="algae-rp-conservation-status-pie"></canvas></div>
+				</div>
 			</div>
 			<div class="row" id=number-of-taxa">
 				<div class="col-3">No. of taxa</div>
 				<div class="col-3"><%= taxa_count[0] %></div>
 				<div class="col-3"><%= taxa_count[1] %></div>
 				<div class="col-3"><%= taxa_count[2] %></div>
+			</div>
+			<div class="row" id="ecological-condition">
+				<div class="col-3">Ecological Condition</div>
+				<div class="col-3">Good</div>
+				<div class="col-3">Fair</div>
+				<div class="col-3">Poor</div>
+			</div>
+			<div  id="rp-dashboard-buttons">
+				<div class="row">
+					<div class="col-3" style="padding-left: 15px;">Dashboards</div>
+					<div class="col-3" id="rp-view-fish"></div>
+					<div class="col-3" id="rp-view-invertebra">
+					</div>
+					<div class="col-3" id="rp-view-algae"></div>
+				</div>
+				<div class="row">
+					<div class="col-3" style="padding-left: 15px;">SASS and Fish Form</div>
+					<div class="col-3" id="rp-view-sass"></div>
+					<div class="col-3" id="rp-add-sass"></div>
+					<div class="col-3" id="rp-view-fish-form"></div>
+				</div>
 			</div>
 		</div>
 	</div>

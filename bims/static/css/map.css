@@ -2545,3 +2545,22 @@ div:hover::-webkit-scrollbar {
 .html2canvas-container {
     width: 3000px !important; height: 3000px !important;
 }
+
+#rp-dashboard-buttons .col-3 {
+    padding: 0.5px;
+}
+
+#rp-dashboard-buttons .container-fluid {
+    padding: 0;
+    margin: 0;
+}
+
+#rp-dashboard-buttons .right-panel-button {
+    font-size: 70%;
+    color: white;
+    margin: 0;
+}
+
+#biodiversity_data {
+
+}

@@ -219,6 +219,59 @@ define(['backbone', 'ol', 'shared', 'chartJs', 'jquery'], function (Backbone, ol
             $('.species-list-count').html(speciesListCount);
             return $specialListWrapper;
         },
+        insertDashboardButtons: function() {
+        // Add detail dashboard button
+
+            var fish_dashboard_button = `
+                <button class="btn fbis-button right-panel-button 
+                               open-detailed-site-button">Fish</button>`;
+            document.getElementById('rp-view-fish').innerHTML = fish_dashboard_button;
+            
+            var invertebra_dashboard_button = `
+                <button class="btn fbis-button right-panel-button 
+                               open-detailed-site-button">Invertebra</button>`;
+            document.getElementById('rp-view-invertebra').innerHTML = invertebra_dashboard_button;
+
+             var algae_dashboard_button = `
+                <button class="btn fbis-button right-panel-button 
+                               open-detailed-site-button">Algae</button>`;
+            document.getElementById('rp-view-algae').innerHTML = algae_dashboard_button;
+
+            
+            if (is_sass_enabled) {
+                var sassDetailedDashboardButton = `
+                    <div class="container-fluid"><a 
+                    href="/sass/dashboard/${this.parameters['siteId']}/${this.apiParameters(this.parameters)}
+                    " class="btn right-panel-button right-panel-last-button 
+                             fbis-button sass-button">View SASS</a></div>`;
+                var sassButton = `
+                    <div class="container-fluid"><a 
+                    href="/sass/${this.parameters['siteId']}
+                    " class="btn right-panel-button right-panel-last-button 
+                             fbis-button sass-button">SASS +</a></div>`;
+            }
+            else
+            {
+                var sassDetailedDashboardButton = `
+                    <div class="container-fluid"><a class="btn right-panel-button 
+                             fbis-button sass-button fbis-button-disabled">View SASS</a></div>`;
+                var sassButton = `
+                    <div class="container-fluid"><a class="btn right-panel-button 
+                             fbis-button sass-button fbis-button-disabled">SASS +</a></div>`;
+            }
+            var rp_view_sass_container = document.getElementById('rp-view-sass');
+            rp_view_sass_container.innerHTML = sassDetailedDashboardButton;
+            var rp_add_sass_container = document.getElementById('rp-add-sass')
+            rp_add_sass_container.innerHTML = sassButton;
+
+            var fishFormButton = `
+                <div class="container-fluid"><a 
+                href="/fish-form/?siteId=${this.parameters['siteId']}
+                " class="btn right-panel-button right-panel-last-button 
+                         fbis-button sass-button">Fish Form</a></div>`;
+            var rp_view_fish_form_container = document.getElementById('rp-view-fish-form');
+            rp_view_fish_form_container.innerHTML = fishFormButton;
+            },
         showDetail: function (name, zoomToObject) {
             var self = this;
             // Render basic information
@@ -234,11 +287,11 @@ define(['backbone', 'ol', 'shared', 'chartJs', 'jquery'], function (Backbone, ol
                 '<span class="search-result-title">Biodiversity Data</span> ' +
                 '<i class="fa fa-angle-down pull-right filter-icon-arrow"></i></div></div>');
             //
-            // $siteDetailWrapper.append(
-            //     '<div id="species-list" class="search-results-wrapper">' +
-            //     '<div class="search-results-total" data-visibility="true"> ' +
-            //     '<span class="search-result-title"> SPECIES LIST (<span class="species-list-count"><i>loading</i></span>) ' +
-            //     '</span> <i class="fa fa-angle-down pull-right filter-icon-arrow"></i></div></div>');
+            $siteDetailWrapper.append(
+                '<div id="species-list" class="search-results-wrapper">' +
+                '<div class="search-results-total" data-visibility="true"> ' +
+                '<span class="search-result-title"> SPECIES LIST (<span class="species-list-count"><i>loading</i></span>) ' +
+                '</span> <i class="fa fa-angle-down pull-right filter-icon-arrow"></i></div></div>');
 
             Shared.Dispatcher.trigger('sidePanel:openSidePanel', {});
             Shared.Dispatcher.trigger('sidePanel:fillSidePanelHtml', $siteDetailWrapper);
@@ -263,7 +316,7 @@ define(['backbone', 'ol', 'shared', 'chartJs', 'jquery'], function (Backbone, ol
                         $('#biodiversity-data').append(self.renderBiodiversityData(data));
                         self.createDataSummary(data);
                     }
-
+                    self.insertDashboardButtons();
                     // render species list
                     $('#species-list').append(self.renderSpeciesList(data));
                     Shared.LocationSiteDetailXHRRequest = null;
