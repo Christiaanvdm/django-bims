@@ -1,4 +1,5 @@
 import json
+from django.db.models import Count, F
 from rest_framework import serializers
 from bims.models.location_site import LocationSite
 from bims.models.biological_collection_record import BiologicalCollectionRecord
@@ -57,6 +58,9 @@ class LocationSiteDetailSerializer(LocationSiteSerializer):
                 site=instance,
                 validated=True
             )
+
+        biodiversity_data = self.get_biodiversity_data(collections)
+        result['biodiversity_data'] = biodiversity_data
         records_occurrence = {}
         module_info = {}
         for model in collections:
@@ -135,4 +139,59 @@ class LocationSiteDetailSerializer(LocationSiteSerializer):
 
         result['records_occurrence'] = records_occurrence
         result['modules_info'] = module_info
+
+
+
+
         return result
+
+    def get_biodiversity_data(self, collection_results):
+        biodiversity_data = {}
+        biodiversity_data['fish'] = {}
+        biodiversity_data['fish']['origin_chart'] = {}
+        biodiversity_data['fish']['cons_status_chart'] = {}
+        biodiversity_data['fish']['endemism_chart'] = {}
+        origin_by_name_data = collection_results.annotate(
+            name=F('category')
+        ).values(
+            'name'
+        ).annotate(
+            count=Count('name')
+        ).order_by(
+            'name'
+        )
+        keys = origin_by_name_data.values_list('name', flat=True)
+        values = origin_by_name_data.values_list('count', flat=True)
+        biodiversity_data['fish']['origin_chart']['data'] = list(values)
+        biodiversity_data['fish']['origin_chart']['keys'] = list(keys)
+        cons_status_data = collection_results.annotate(
+            name=F('taxonomy__iucn_status__category')
+        ).values(
+            'name'
+        ).annotate(
+            count=Count('name')
+        ).order_by(
+            'name'
+        )
+        keys = cons_status_data.values_list('name', flat=True)
+        values = cons_status_data.values_list('count', flat=True)
+        biodiversity_data['fish']['cons_status_chart']['data'] = list(
+            values)
+        biodiversity_data['fish']['cons_status_chart']['keys'] = list(keys)
+        endemism_status_data = collection_results.annotate(
+            name=F('taxonomy__endemism__name')
+        ).values(
+            'name'
+        ).annotate(
+            count=Count('name')
+        ).order_by(
+            'name'
+        )
+        keys = endemism_status_data.values_list('name', flat=True)
+        values = endemism_status_data.values_list('count', flat=True)
+        biodiversity_data['fish']['endemism_chart']['data'] = list(values)
+        biodiversity_data['fish']['endemism_chart']['keys'] = list(keys)
+        biodiversity_data['occurrences'] = [0, 0, 0]
+        biodiversity_data['number_of_taxa'] = [0, 0, 0]
+        biodiversity_data['ecological_condition'] = ['TBA', 'TBA', 'TBA']
+        return biodiversity_data

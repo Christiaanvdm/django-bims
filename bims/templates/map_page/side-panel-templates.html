@@ -21,23 +21,57 @@
                     <span class="right-panel-title"></span>
                 </div>
             </div>
-	        <div class="row" id="biodiversity_data">
-				<div class="col-12">
-					<div class="row" id="biodiversity_data_types">
-						<div class="col-3">Type</div>
-						<div class="col-3 fish-icon"></div>
-						<div class="col-3 invertebrate-icon"></div>
-						<div class="col-3 algae-icon"></div>
-					</div>
-					<div class="row" id="biodiversity_data_occurrences">
-						<div class="col-3">Sites</div>
-						<div class="col-3"><%= fish_occurrences =></div>
-						<div class="col-3"><%= invertebrate_occurrences =></div>
-						<div class="col-3"><%= algae_occurrences =></div>
-					</div>
-				</div>
-	        </div>
+
 
         </div>
     </div>
+</script>
+
+<script type='text/html' id='side-panel-biodiversity-data-template'>
+	<div class="row" id="biodiversity_data">
+		<div class="col-12">
+			<div class="row" id="biodiversity_data_types">
+				<div class="col-3">Type</div>
+				<div class="col-3 fish-icon"></div>
+				<div class="col-3 invertebrate-icon"></div>
+				<div class="col-3 algae-icon"></div>
+			</div>
+			<div class="row" id="biodiversity_data_occurrences">
+				<div class="col-3">Occurrences</div>
+				<div class="col-3"><%= fish_occurrences %></div>
+				<div class="col-3"><%= invertebrate_occurrences %></div>
+				<div class="col-3"><%= algae_occurrences %></div>
+			</div>
+			<div class="row" id="biodiversity_data_sites">
+				<div class="col-3">Sites</div>
+				<div class="col-3"><%= fish_sites_count %></div>
+				<div class="col-3"><%= invertebrate_sites_count %></div>
+				<div class="col-3"><%= algae_sites_count %></div>
+			</div>
+			<div class="row" id="origin_pie_charts">
+				<div class="col-3">Origin</div>
+				<div class="col-3" id="fish-rp-origin-pie"></div>
+				<div class="col-3" id="invertebrate-rp-origin-pie"></div>
+				<div class="col-3" id="algae-rp-origin-pie"></div>
+			</div>
+			<div class="row" id="endemism_pie_charts">
+				<div class="col-3">Endemism</div>
+				<div class="col-3" id="fish-rp-endemism-pie"></div>
+				<div class="col-3" id="invertebrate-rp-endemism-pie"></div>
+				<div class="col-3" id="algae-rp-endemism-pie"></div>
+			</div>
+			<div class="row" id="conservation-status_pie_charts">
+				<div class="col-3">Conservation Status</div>
+				<div class="col-3" id="fish-rp-conservation-status-pie"></div>
+				<div class="col-3" id="invertebrate-rp-conservation-status-pie"></div>
+				<div class="col-3" id="algae-rp-conservation-status-pie"></div>
+			</div>
+			<div class="row" id=number-of-taxa">
+				<div class="col-3">Sites</div>
+				<div class="col-3"><%= fish_taxa_count %></div>
+				<div class="col-3"><%= invertebrate_taxa_count %></div>
+				<div class="col-3"><%= algae_taxa_count %></div>
+			</div>
+		</div>
+	</div>
 </script>
